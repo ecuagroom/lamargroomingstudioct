@@ -276,6 +276,10 @@
       .san-gallery.juntas{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
       .san-gallery.juntas figure{margin:0;}
       @media (min-width:700px){ .svc.wide .san-gallery.juntas{grid-template-columns:repeat(auto-fit,minmax(0,1fr));} }
+      .san-gallery.caso3{grid-template-columns:repeat(3,1fr);}
+      .san-gallery.caso2{grid-template-columns:repeat(2,1fr);}
+      .san-gallery.caso2 figure.antes{grid-column:1 / -1;}
+      @media (min-width:700px){ .svc.wide .san-gallery.caso2{grid-template-columns:repeat(2,1fr);} }
       .san-gallery figcaption{font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-bright);margin-top:6px;}
       .san-case{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--gold-deep);margin:18px 0 0;}
 
@@ -853,7 +857,7 @@
                 <p>El precio varía según el estado del pelaje y el carácter de tu mascota.</p>
                 <p class="san-label">Casos reales: de principio a fin</p>
                 <p class="san-case">Caso 1</p>
-                <div class="san-gallery juntas">
+                <div class="san-gallery juntas caso3">
                   <figure>
                     <img src="assets/img-071-7fafefc831e9.jpg" alt="Perrito de pelaje crema sentado en la mesa de grooming, con el manto largo y lleno de nudos antes del servicio sanitario" width="900" height="1600" loading="lazy" />
                     <figcaption>Antes</figcaption>
@@ -868,8 +872,8 @@
                   </figure>
                 </div>
                 <p class="san-case">Caso 2</p>
-                <div class="san-gallery juntas">
-                  <figure>
+                <div class="san-gallery juntas caso2">
+                  <figure class="antes">
                     <img src="assets/img-075-6851bdb89b2a.jpg" alt="Perrito gris acostado en la mesa de grooming, con el pelaje muy apelmazado antes del servicio sanitario" width="900" height="506" loading="lazy" />
                     <figcaption>Antes</figcaption>
                   </figure>
