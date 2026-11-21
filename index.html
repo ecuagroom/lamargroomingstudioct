@@ -249,6 +249,16 @@
       }
       .svc.navidad .tag{background:#B33A3A;color:#FFF7EA;}
 
+      /* ---------- Aviso emergente: Paquete Navideño ---------- */
+      .promo-overlay{position:fixed;inset:0;z-index:9999;background:rgba(32,12,54,.68);display:flex;align-items:center;justify-content:center;padding:16px;}
+      .promo-overlay[hidden]{display:none;}
+      .promo-card{position:relative;background:#fff;border-radius:18px;overflow:hidden;max-width:430px;width:100%;max-height:94vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.45);}
+      .promo-card img{display:block;width:100%;height:auto;}
+      .promo-close{position:absolute;top:10px;right:10px;width:38px;height:38px;border:none;border-radius:50%;background:rgba(32,12,54,.72);color:#fff;font-size:22px;line-height:1;cursor:pointer;z-index:2;}
+      .promo-actions{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;background:#fff;}
+      .promo-cta{width:100%;text-align:center;font-size:17px;}
+      .promo-later{background:none;border:none;color:#6d6390;font-size:14px;cursor:pointer;padding:4px;}
+
       /* ---------- Espacio destacado: perritos nerviosos ---------- */
       .welcome-block{
         margin-top:42px;border:1px solid var(--line);border-radius:var(--radius);
@@ -1033,7 +1043,7 @@
                 </div>
               </article>
 
-              <article class="svc featured wide navidad">
+              <article class="svc featured wide navidad" id="paquete-navideno">
                 <div class="svc-top">
                   <h3>Paquete Navideño</h3>
                   <span class="tag">Edición limitada</span>
@@ -1560,6 +1570,17 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
     </a>
 
+    <div class="promo-overlay" id="promoNavidad" hidden>
+      <div class="promo-card" role="dialog" aria-modal="true" aria-label="Paquete Navideño">
+        <button class="promo-close" type="button" id="promoCerrar" aria-label="Cerrar">×</button>
+        <img src="assets/flyer-paquete-navideno.jpg" alt="Flyer del Paquete Navideño de Lamar Grooming Studio: paga 10 Full Grooming y lleva 12, más baños y colorimetrías gratis">
+        <div class="promo-actions">
+          <button class="btn btn-gold promo-cta" type="button" id="promoCta">🎄 Quiero el paquete</button>
+          <button class="promo-later" type="button" id="promoDespues">Ahora no</button>
+        </div>
+      </div>
+    </div>
+
     <script>
       (function () {
         var views = ["inicio", "servicios", "daycare", "galeria", "contacto"];
@@ -1967,7 +1988,11 @@
           "Poodle chocolate ya arreglado, junto a su manto completo de nudos retirado": "Chocolate poodle after his groom, next to his entire removed matted coat",
           "Poodle apricot junto al pelaje apelmazado que se le retiró, colgando del brazo de la mesa": "Apricot poodle next to the matted coat removed from him, hanging from the table arm",
           "Detalle del pelaje apelmazado retirado de un poodle cobrizo": "Close-up of the matted coat removed from a copper poodle",
-          "Blanca en el piso del salón jugando a tirar de una cuerda con un pitbull que lleva corbata roja": "Blanca on the salon floor playing tug-of-war with a pit bull wearing a red tie"
+          "Blanca en el piso del salón jugando a tirar de una cuerda con un pitbull que lleva corbata roja": "Blanca on the salon floor playing tug-of-war with a pit bull wearing a red tie",
+          "Flyer del Paquete Navideño de Lamar Grooming Studio: paga 10 Full Grooming y lleva 12, más baños y colorimetrías gratis": "Lamar Grooming Studio Holiday Package flyer: pay for 10 Full Groomings and get 12, plus free baths and colorimetry",
+          "🎄 Quiero el paquete": "🎄 I want the package",
+          "Ahora no": "Not now",
+          "Cerrar": "Close"
         };
 
         var WA_PREFIX_ES = "https://wa.me/12035403934?text=Hola%2C%20muy%20buenas.%20";
@@ -2064,6 +2089,37 @@
         });
         document.querySelectorAll("[data-more]").forEach(function (btn) {
           btn.addEventListener("click", function () { setTimeout(fixRevMore, 0); });
+        });
+      })();
+    </script>
+
+    <script>
+      (function () {
+        var promo = document.getElementById("promoNavidad");
+        if (!promo) return;
+        var cerrada = false;
+        try { cerrada = sessionStorage.getItem("promoNavidad") === "cerrada"; } catch (e) {}
+        function abrir() {
+          promo.hidden = false;
+          document.documentElement.style.overflow = "hidden";
+        }
+        function cerrar() {
+          promo.hidden = true;
+          document.documentElement.style.overflow = "";
+          try { sessionStorage.setItem("promoNavidad", "cerrada"); } catch (e) {}
+        }
+        if (!cerrada) setTimeout(abrir, 900);
+        document.getElementById("promoCerrar").addEventListener("click", cerrar);
+        document.getElementById("promoDespues").addEventListener("click", cerrar);
+        promo.addEventListener("click", function (ev) { if (ev.target === promo) cerrar(); });
+        document.getElementById("promoCta").addEventListener("click", function () {
+          cerrar();
+          var nav = document.querySelector('button[data-nav="servicios"]');
+          if (nav) nav.click();
+          setTimeout(function () {
+            var card = document.getElementById("paquete-navideno");
+            if (card) card.scrollIntoView({ behavior: "smooth", block: "center" });
+          }, 250);
         });
       })();
     </script>
